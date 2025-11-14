@@ -1,5 +1,8 @@
 {
-  "name": "downloader",
+  "scripts": {
+    "dev": "bun run index.ts"
+  },
+  "name": "transcoder",
   "module": "index.ts",
   "type": "module",
   "devDependencies": {
