@@ -4,6 +4,7 @@ import downloadFile from './downloadFile';
 import path from "path";
 import Transcode from './transcoder';
 import uploader from './uploder';
+import deleteSourceFiles from './deleteSourceFiles';
 
 const connection = new IORedis({ maxRetriesPerRequest: null });
 
@@ -23,6 +24,7 @@ const worker = new Worker('transcoder',async(job)=>
 
         //upload and delete files
         await uploader(key);
+        await deleteSourceFiles(filename);
     },
     { 
         connection,
