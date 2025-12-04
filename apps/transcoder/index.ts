@@ -1,11 +1,22 @@
-import express from "express";
+import { Worker } from 'bullmq';
+import IORedis from 'ioredis';
 
-const app = express();
+const connection = new IORedis({ maxRetriesPerRequest: null });
 
-app.get("/",(req,res)=>{
-    res.send("Transcoder Service is up and running!");
-});
+async function sleep(){
+    return new Promise((res,rej)=>{
+        setTimeout(()=>{
+            res("sleep over")
+        },1000)
+    })
+}
 
-app.listen(3002, () => {
-  console.log("Transcoderr service is running on port 3002");
-})
+const worker = new Worker('transcoder',async(job)=>{
+        await sleep();
+        console.log(job.data);
+    },
+    { 
+        connection,
+        concurrency: 1  // Process only 1 job at a time
+    },
+);
