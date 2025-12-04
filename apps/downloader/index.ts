@@ -2,6 +2,8 @@ import express from "express";
 import { Queue } from 'bullmq';
 import startWorker from "./worker";
 const myQueue = new Queue('videos');
+import fs from "fs/promises";
+import path from "path";
 
 const app = express();
 
@@ -23,6 +25,17 @@ app.post("/video", async (req, res) => {
         res.status(500).json({ error: "Failed to process video request" });
     }
 });
+
+app.delete("/delete/:filename",async(req,res)=>{
+    const {filename} = req.params;
+    try {
+        const filepath = path.join(__dirname,`/downloads/${filename}`)
+        await fs.unlink(filepath)
+        res.send("file deleted successfully");
+    } catch (error) {
+        console.log(`There was an error deleting ${filename}`)
+    }
+})
 
 app.listen(3000, () => {
     console.log("Downloader service is running on port 3000");

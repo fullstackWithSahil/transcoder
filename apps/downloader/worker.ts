@@ -19,7 +19,7 @@ export default function startWorker(){
         }
         
         // Preserve original file extension from the key
-        const originalExtension = path.extname(key) || '.webp';
+        const originalExtension = path.extname(key) || '.mp4';
         const filename = `${String(Date.now())}${originalExtension}`;
         const filepath = path.join(downloadsDir, filename);
         
