@@ -8,7 +8,7 @@ export default async function Transcode(resolution: "1080" | "720" | "360" | "14
     try {
         // Step 1: Transcode video
         await execPromise(
-            `ffmpeg -i ${input} ` +
+            `ffmpeg -i input/${input} ` +
             `-c:v libx264 -preset medium -crf 23 ` +
             `-c:a aac -b:a 128k ` +
             `-vf scale=${scale} ` +
